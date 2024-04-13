@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "manaba",
+    "version": "1.0.0",
+    "description": "",
+    "author": {
+        "email": "akisatoon@gmail.com"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://room.chuo-u.ac.jp/ct/home*"
+            ],
+            "js": [
+                "contentScript.js"
+            ]
+        }
+    ]
+}
