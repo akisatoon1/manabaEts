@@ -41,18 +41,28 @@ function create_table(array) {
 }
 
 function main() {
+
     let is_list = false;
+
+    // if course news exist, push course to this.
     let news = [];
+
     const section = document.querySelector("div.my-infolist.my-infolist-mycourses")
         .querySelector("div.mycourses-body")
         .querySelector("div.section");
 
     let courses = section
         .querySelectorAll("div.coursecard.coursecard-c");
+
+    // if list
     if (!courses.length) {
-        courses = section.querySelector("table").querySelectorAll("tr.row1.courselist-c");
+        courses = section.querySelector("table").querySelectorAll("tr.courselist-c");
         is_list = true;
     }
+
+    // debug
+    console.log("courses:");
+    console.log(courses);
 
     for (const course of courses) {
         const statuses = course
@@ -63,6 +73,10 @@ function main() {
         if (statuses[0].getAttribute("title"))
             news.push(return_a(course, is_list));
     }
+
+    //debug
+    console.log("news:");
+    console.log(news);
 
     append_ele(create_table(news));
 }
