@@ -9,7 +9,10 @@
     "content_scripts": [
         {
             "matches": [
-                "https://room.chuo-u.ac.jp/ct/home*"
+                "https://room.chuo-u.ac.jp/ct/home",
+                "https://room.chuo-u.ac.jp/ct/home?chglistformat=thumbnail",
+                "https://room.chuo-u.ac.jp/ct/home?chglistformat=list",
+                "https://room.chuo-u.ac.jp/ct/home?chglistformat=timetable"
             ],
             "js": [
                 "contentScript.js"
