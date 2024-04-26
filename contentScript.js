@@ -40,7 +40,27 @@ function create_table(array) {
     return table;
 }
 
+function return_info_status() {
+    const infos = document.querySelector("ul.infolist-tab").querySelectorAll("li");
+    let i = 0;
+    for (const info of infos) {
+        if (info.className == "current")
+            return i;
+        i++;
+    }
+    /*
+    error handling
+    if(i>2)
+    */
+}
+
 function main() {
+
+    const thumbnail = 0;
+    const list = 1;
+    const day = 2;
+
+    const info_status = return_info_status();
 
     let is_list = false;
 
@@ -51,14 +71,25 @@ function main() {
         .querySelector("div.mycourses-body")
         .querySelector("div.section");
 
-    let courses = section
-        .querySelectorAll("div.coursecard.coursecard-c");
-
-    // if list
-    if (!courses.length) {
-        courses = section.querySelector("table").querySelectorAll("tr.courselist-c");
-        is_list = true;
+    let courses;
+    switch (info_status) {
+        case thumbnail:
+            courses = section
+                .querySelectorAll("div.coursecard.coursecard-c");
+            break;
+        case list:
+            courses = section.querySelector("table").querySelectorAll("tr.courselist-c");
+            is_list = true;
+            break;
+        case day:
+            // implement later
+            courses = [];
+            break;
+        default:
+            // error handling
+            break;
     }
+
 
     // debug
     console.log("courses:");
