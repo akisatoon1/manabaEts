@@ -1,16 +1,57 @@
 "use strict";
 
-function return_a(course, is_list) {
-    if (is_list) {
-        return course
-            .querySelector("td")
-            .querySelector("span")
-            .querySelector("a");
-    } else {
-        return course
+const Thumbnail = 0;
+const List = 1;
+const Timetable = 2;
+
+// if course news exist, push course to this.
+let news = [];
+
+// return <a href="link"> element of course
+function return_a(info_status, course) {
+    switch (info_status) {
+        case Thumbnail:
+            return course
+                .querySelector("div")
+                .querySelector("div.course-card-title.course-card-titleV2")
+                .querySelector("a");
+        case List:
+        case Timetable:
+            return course
+                .querySelector("td")
+                .querySelector("span")
+                .querySelector("a");
+        default:
+            // error handling
+            return;
+    }
+}
+
+function return_courses(info_status, section) {
+    switch (info_status) {
+        case Thumbnail:
+            return section
+                .querySelectorAll("div.coursecard.coursecard-c");
+        case List:
+        case Timetable:
+            return section
+                .querySelector("table").querySelectorAll("tr.courselist-c");
+        default:
+            // error handling
+            return;
+    }
+}
+
+function push_to_news(info_status, courses) {
+    for (const course of courses) {
+        const statuses = course
             .querySelector("div")
-            .querySelector("div.course-card-title.course-card-titleV2")
-            .querySelector("a");
+            .querySelector("div.course-card-status")
+            .querySelectorAll("img");
+
+        if (statuses[0].getAttribute("title")) {
+            news.push(return_a(info_status, course));
+        }
     }
 }
 
@@ -40,6 +81,9 @@ function create_table(array) {
     return table;
 }
 
+// 0: thumbnail
+// 1: list
+// 2: timetable
 function return_info_status() {
     const infos = document.querySelector("ul.infolist-tab").querySelectorAll("li");
     let i = 0;
@@ -54,18 +98,24 @@ function return_info_status() {
     */
 }
 
+function timetable(info_status, section) {
+    section = section.querySelector("div#courselistweekly");
+    const table = section.querySelector("table");
+    const infolist = section.querySelector("div.my-infolist");
+    for (const tr of table.querySelectorAll("tr")) {
+        if (tr.className == "title") continue;
+        for (const td of tr.querySelectorAll("td.course.course-cell")) {
+            const statuses = td.querySelector("div.coursestatus").querySelectorAll("img");
+            if (statuses[0].getAttribute("title"))
+                news.push(td.querySelector("a"));
+        }
+    }
+    push_to_news(info_status, return_courses(info_status, infolist));
+}
+
 function main() {
 
-    const thumbnail = 0;
-    const list = 1;
-    const day = 2;
-
     const info_status = return_info_status();
-
-    let is_list = false;
-
-    // if course news exist, push course to this.
-    let news = [];
 
     const section = document.querySelector("div.my-infolist.my-infolist-mycourses")
         .querySelector("div.mycourses-body")
@@ -73,40 +123,21 @@ function main() {
 
     let courses;
     switch (info_status) {
-        case thumbnail:
-            courses = section
-                .querySelectorAll("div.coursecard.coursecard-c");
+        case Thumbnail:
+        case List:
+            courses = return_courses(info_status, section);
+            push_to_news(info_status, courses);
             break;
-        case list:
-            courses = section.querySelector("table").querySelectorAll("tr.courselist-c");
-            is_list = true;
-            break;
-        case day:
-            // implement later
-            courses = [];
+
+        case Timetable:
+            timetable(info_status, section);
             break;
         default:
             // error handling
             break;
     }
 
-
-    // debug
-    console.log("courses:");
-    console.log(courses);
-
-    for (const course of courses) {
-        const statuses = course
-            .querySelector("div")
-            .querySelector("div.course-card-status")
-            .querySelectorAll("img");
-
-        if (statuses[0].getAttribute("title"))
-            news.push(return_a(course, is_list));
-    }
-
     //debug
-    console.log("news:");
     console.log(news);
 
     append_ele(create_table(news));
