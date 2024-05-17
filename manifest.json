@@ -15,7 +15,15 @@
                 "https://room.chuo-u.ac.jp/ct/home?chglistformat=timetable"
             ],
             "js": [
-                "contentScript.js"
+                "home.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://room.chuo-u.ac.jp/ct/home_library_query"
+            ],
+            "js": [
+                "assignment.js"
             ]
         }
     ]
