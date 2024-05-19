@@ -20,11 +20,7 @@
         },
         {
             "matches": [
-                "https://room.chuo-u.ac.jp/ct/home_library_query",
-                "https://room.chuo-u.ac.jp/ct/home_library_query__",
-                "https://room.chuo-u.ac.jp/ct/home_library_query___day",
-                "https://room.chuo-u.ac.jp/ct/home_library_query___week",
-                "https://room.chuo-u.ac.jp/ct/home_library_query___month"
+                "https://room.chuo-u.ac.jp/ct/home_library_query*"
             ],
             "js": [
                 "assignment.js"
